@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linktree Style Page</title>
+  <title>Page with Persistent Clicks</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -59,6 +59,7 @@
     <a href="https://link1.com" class="link-btn" onclick="incrementClick(0)">
       Link 1 
       <span class="click-count" id="count-0">0</span>
+      
     </a>
 
     <a href="https://link2.com" class="link-btn" onclick="incrementClick(1)">
@@ -74,13 +75,25 @@
   </div>
 
   <script>
-    // JavaScript to handle click count
-    let clickCounts = [0, 0, 0];
+    // Retrieve click counts from localStorage or initialize them to zero
+    let clickCounts = JSON.parse(localStorage.getItem('clickCounts')) || [0, 0, 0];
 
+    // Function to update the click count
+    function updateCounts() {
+      for (let i = 0; i < clickCounts.length; i++) {
+        document.getElementById('count-' + i).innerText = clickCounts[i];
+      }
+    }
+
+    // Increment click count and save to localStorage
     function incrementClick(index) {
       clickCounts[index]++;
+      localStorage.setItem('clickCounts', JSON.stringify(clickCounts));
       document.getElementById('count-' + index).innerText = clickCounts[index];
     }
+
+    // Initialize the counts on page load
+    updateCounts();
   </script>
 
 </body>
